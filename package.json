@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",
-    "preview:pages": "GITHUB_ACTIONS=true GITHUB_REPOSITORY=Oleksandr-Sainchuk/UMT-markup-practice-Sainchuk sh -c 'vite build && vite preview'",
+    "preview:pages": "GITHUB_ACTIONS=true GITHUB_REPOSITORY=Oleksandr-Sainchuk/UMT-markup-test VITE_API_MODE=static sh -c 'vite build && vite preview'",
     "build": "vite build",
     "api": "json-server db.json --port 3001"
   },
