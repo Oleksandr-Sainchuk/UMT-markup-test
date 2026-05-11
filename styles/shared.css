@@ -1,0 +1,332 @@
+/* Shared */
+
+html.modal-open,
+html.menu-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body.modal-open,
+body.menu-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: "Heebo", sans-serif;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: 0%;
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+  overflow-x: hidden;
+}
+
+.section-wrapper {
+  padding: 32px 0;
+}
+
+.container {
+  max-width: 335px;
+  padding: 0 8px;
+  margin: 0 auto;
+}
+
+.text {
+  font-size: var(--medium);
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+.section-title {
+  font-family: "Roboto Slab", sans-serif;
+  font-weight: 500;
+  font-size: var(--heading);
+  line-height: 120%;
+  letter-spacing: -1%;
+}
+
+.primary-icon {
+  fill: var(--primary-text);
+  width: 24px;
+  height: 24px;
+}
+
+.icon-large {
+  width: 48px;
+  height: 48px;
+}
+
+.icon-medium {
+  width: 32px;
+  height: 32px;
+}
+
+.primary-button {
+  color: inherit;
+  font-weight: 500;
+  font-size: var(--regular);
+  padding: 10px 24px;
+  background-color: var(--primary-button-bg);
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+  border-left-width: 1.5px;
+  border-bottom-width: 4px;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: var(--primary-button-border-color);
+  outline: none;
+  transition:
+    background-color 250ms ease-in-out,
+    border-color 250ms ease-in-out;
+}
+.primary-button:hover,
+.primary-button:focus-visible {
+  background-color: var(--primary-button-hover-bg);
+}
+
+.primary-button:active {
+  background-color: var(--primary-button-hover-bg);
+  border-color: var(--primary-button-hover-bg);
+}
+
+.primary-button:disabled,
+.primary-button[disabled] {
+  pointer-events: none;
+  opacity: 0.2;
+}
+
+.secondary-button {
+  color: inherit;
+  font-weight: 500;
+  font-size: var(--regular);
+  padding: 10px 24px;
+  background-color: transparent;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+  border-left-width: 1.5px;
+  border-bottom-width: 4px;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: var(--secondary-button-border-color);
+  outline: none;
+  transition:
+    background-color 250ms ease-in-out,
+    border-color 250ms ease-in-out;
+}
+
+.secondary-button:hover,
+.secondary-button:focus-visible {
+  background-color: var(--secondary-button-hover-bg);
+}
+
+.secondary-button:active {
+  background-color: var(--secondary-button-hover-bg);
+  border-color: transparent;
+}
+
+.secondary-button:disabled,
+.secondary-button[disabled] {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.general-link {
+  transition:
+    text-decoration 4ms ease-in-out,
+    color 250ms ease-in-out;
+}
+
+.general-link:hover,
+.general-link:focus-visible {
+  text-decoration: underline;
+}
+
+.general-link:active {
+  color: var(--primary-button-bg);
+}
+
+.general-link.disabled {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.modal-background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgb(214, 138, 125);
+
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 250ms ease-in-out,
+    visibility 250ms ease-in-out;
+  background-color: var(--modal-bg);
+}
+
+.modal-background.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--primary-bg);
+  padding: 16px 16px 64px;
+  width: 90%;
+  height: 600px;
+  max-height: 90%;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 250ms ease-in-out;
+}
+
+.close-modal-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-text);
+  background-color: transparent;
+  border-radius: 50%;
+  padding: 0;
+  margin-left: auto;
+  margin-bottom: 16px;
+}
+
+.close-modal-button svg {
+  width: 32px;
+  height: 32px;
+}
+
+.modal-content-wrapper {
+  overflow-y: auto;
+  margin: 0 auto;
+  max-width: 311px;
+}
+
+.input-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+label {
+  font-size: var(--regular);
+  color: var(--primary-text);
+}
+
+input,
+textarea {
+  border-radius: 6px;
+  border: 1px solid var(--select-border-color);
+  height: 40px;
+  padding: 8px 12px;
+  align-items: center;
+  transition: border-color 250ms ease-in-out;
+  width: 100%;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--primary-text);
+}
+
+textarea {
+  height: auto;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-size: var(--regular);
+  color: var(--input-placeholder);
+}
+
+input:focus-visible,
+input:hover,
+textarea:focus-visible,
+textarea:hover {
+  outline: none;
+  border-color: var(--input-focused-border);
+}
+
+/* Notifications */
+
+#notification-root {
+  position: fixed;
+  inset: 16px 16px auto auto;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  max-width: min(360px, 20vw);
+}
+
+.notification {
+  pointer-events: auto;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: var(--regular);
+  color: var(--primary-text);
+  background-color: var(--notification-bg);
+  border: 1px solid var(--primary-button-border-color);
+  box-shadow: 0 8px 24px #00000059;
+}
+
+.notification--error {
+  border-color: var(--primary-button-bg);
+}
+
+/* Loader */
+
+.content-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.content-loader[hidden] {
+  display: none !important;
+}
+
+.content-loader__spinner {
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid rgb(255 255 255 / 18%);
+  border-top-color: var(--primary-button-bg);
+  animation: content-loader-spin 0.75s linear infinite;
+}
+
+@keyframes content-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content-loader__spinner {
+    animation: content-loader-pulse 1.2s ease-in-out infinite;
+  }
+
+  @keyframes content-loader-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.45;
+    }
+  }
+}
