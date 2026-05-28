@@ -32,13 +32,8 @@ jobs:
           if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
       - name: Build
-        # GitHub Pages is a static host: it can't run json-server. The build
-        # emits dist/api/<collection>.json from db.json, and apiClient appends
-        # `.json` to request URLs when VITE_API_MODE=static.
-        # TODO: drop this env var once the real backend is online and set
-        # VITE_API_BASE_URL to its public URL instead.
         env:
-          VITE_API_MODE: static
+          VITE_BACKEND_URL: ${{ vars.VITE_BACKEND_URL }}
         run: npm run build
 
       - name: Upload Pages artifact

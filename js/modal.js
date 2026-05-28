@@ -1,3 +1,7 @@
+import { apiClient } from "./apiClient.js";
+import { showErrorNotification, showSuccessNotification } from "./notifications.js";
+import { extractErrorMessage } from "./utils.js";
+
 const catalogueList = document.getElementById("catalogue-list");
 const detailModal = document.getElementById("detail-modal");
 const closeButtons = document.querySelectorAll("#close-modal-button");
@@ -5,6 +9,13 @@ const detailModalContent = document.getElementById("detail-modal-content");
 const orderModal = document.getElementById("order-modal");
 const orderButtons = document.querySelectorAll("#order-button");
 const orderModalForm = document.getElementById("order-modal-form");
+const orderSubmitButton = orderModalForm?.querySelector(".order-modal-cta");
+
+const orderSubmitDefaultLabel = "Замовити";
+const orderSubmitLoadingLabel = "Завантаження...";
+
+let selectedProductId = null;
+let isOrderSubmitting = false;
 
 function syncModalOpenState() {
   const anyModalOpen = detailModal.classList.contains("is-open") || orderModal.classList.contains("is-open");
@@ -36,7 +47,8 @@ function openDetailModal() {
   syncModalOpenState();
 }
 
-function openOrderModal() {
+function openOrderModal(productId = null) {
+  selectedProductId = productId;
   orderModal.classList.add("is-open");
   syncModalOpenState();
 }
@@ -44,12 +56,23 @@ function openOrderModal() {
 function closeOrderModal() {
   orderModal.classList.remove("is-open");
   syncModalOpenState();
+  selectedProductId = null;
   orderModalForm.reset();
 }
 
 function closeDetailModal() {
   detailModal.classList.remove("is-open");
   syncModalOpenState();
+}
+
+function setOrderSubmitLoading(isLoading) {
+  if (!orderSubmitButton) {
+    return;
+  }
+
+  orderSubmitButton.disabled = isLoading;
+  orderSubmitButton.classList.toggle("is-loading", isLoading);
+  orderSubmitButton.textContent = isLoading ? orderSubmitLoadingLabel : orderSubmitDefaultLabel;
 }
 
 function buildDetailModalMarkup() {
@@ -71,9 +94,11 @@ function openDetailModalFromCatalogueItem(parentItem) {
   const imgElement = parentItem.querySelector(".catalogue-item-image");
   const src = imgElement.getAttribute("src");
   const rawSrcset = imgElement.getAttribute("srcset");
+  const productId = parentItem.dataset.productId ?? "";
 
   detailModalContent.replaceChildren();
   detailModalContent.insertAdjacentHTML("beforeend", buildDetailModalMarkup());
+  detailModalContent.dataset.productId = productId;
 
   const detailImage = detailModalContent.querySelector(".detail-modal-image");
   detailImage.src = src;
@@ -120,28 +145,54 @@ orderModal.addEventListener("click", (e) => {
 
 detailModalContent.addEventListener("click", (e) => {
   if (e.target.id === "detail-modal-cta" || e.target.closest("#detail-modal-cta")) {
+    const productIdRaw = detailModalContent.dataset.productId;
+    const productId = productIdRaw ? Number(productIdRaw) : null;
+
     closeDetailModal();
-    openOrderModal();
+    openOrderModal(productId ?? null);
   }
 });
 
 orderButtons.forEach((button) =>
   button.addEventListener("click", () => {
-    openOrderModal();
+    openOrderModal(null);
   })
 );
 
-orderModalForm.addEventListener("submit", (e) => {
+orderModalForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  if (isOrderSubmitting || orderModalForm.dataset.submitting === "true") {
+    return;
+  }
+
+  isOrderSubmitting = true;
+  orderModalForm.dataset.submitting = "true";
+
   const formData = new FormData(e.currentTarget);
+  const payload = Object.fromEntries(formData.entries());
 
-  const data = Object.fromEntries(formData.entries());
+  setOrderSubmitLoading(true);
 
-  console.log("name", data.name);
+  try {
+    await apiClient.post("/orders", {
+      name: payload.name,
+      phone: payload.phone,
+      address: payload.address,
+      comment: payload.comment ?? "",
+      productId: selectedProductId,
+    });
 
-  alert(`Дякуємо, ${data.name}! Ми зателефонуємо вам за номером ${data.phone}.`);
-
-  e.currentTarget.reset();
-  closeOrderModal();
+    showSuccessNotification(`Дякуємо, ${payload.name}! Ми зателефонуємо вам за номером ${payload.phone}.`);
+    closeOrderModal();
+  } catch (error) {
+    const message = extractErrorMessage(error, "Не вдалося оформити замовлення. Спробуйте пізніше.");
+    if (message) {
+      showErrorNotification(message);
+    }
+  } finally {
+    isOrderSubmitting = false;
+    delete orderModalForm.dataset.submitting;
+    setOrderSubmitLoading(false);
+  }
 });

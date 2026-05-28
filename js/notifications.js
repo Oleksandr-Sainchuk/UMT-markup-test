@@ -21,9 +21,9 @@ function buildNotificationElement(message, variant) {
   return element;
 }
 
-export function showErrorNotification(message) {
+export function showNotification(message, variant) {
   const root = ensureNotificationRoot();
-  const element = buildNotificationElement(message, "error");
+  const element = buildNotificationElement(message, variant);
   root.append(element);
 
   const dismissMs = 7000;
@@ -31,4 +31,12 @@ export function showErrorNotification(message) {
   window.setTimeout(() => {
     element.remove();
   }, dismissMs);
+}
+
+export function showErrorNotification(message) {
+  showNotification(message, "error");
+}
+
+export function showSuccessNotification(message) {
+  showNotification(message, "success");
 }

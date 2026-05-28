@@ -373,11 +373,56 @@ option::checkmark {
   margin-bottom: 32px;
 }
 
-.feedbacks-list {
+.feedback-slider-viewport {
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 48px;
+  position: relative;
+  min-height: 200px;
+}
+
+.content-loader--feedback {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-color: rgb(34 29 29 / 85%);
+}
+
+.feedback-slider-stage {
+  width: 100%;
+  position: relative;
+}
+
+.feedback-slider-stage.swiper {
+  overflow: hidden;
+}
+
+.feedback-slider-list.swiper-wrapper {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feedback-slider-slide.swiper-slide {
+  height: auto;
+  box-sizing: border-box;
+}
+
+.feedback-slide-row {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-bottom: 48px;
+  width: 100%;
+}
+
+.feedback-slide-row .feedbacks-item {
+  width: 100%;
+}
+
+/* Swiper adds swiper-button-* to our buttons; hide default arrow glyphs. */
+.feedback-pagination-button.swiper-button-prev::after,
+.feedback-pagination-button.swiper-button-next::after {
+  display: none !important;
 }
 
 .starts-list {
@@ -637,6 +682,11 @@ option::checkmark {
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.order-modal-cta.is-loading {
+  opacity: 0.75;
+  pointer-events: none;
 }
 
 @media (-webkit-min-device-pixel-ration: 2), (min-resolution: 192dpi) {
