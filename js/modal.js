@@ -175,7 +175,7 @@ orderModalForm?.addEventListener("submit", async (e) => {
   setOrderSubmitLoading(true);
 
   try {
-    await apiClient.post("/orders", {
+    await apiClient.post("/order", {
       name: payload.name,
       phone: payload.phone,
       address: payload.address,

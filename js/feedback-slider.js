@@ -71,7 +71,7 @@ async function bootFeedbackSlider() {
   }
 
   try {
-    const response = await apiClient.get("/feedbacks");
+    const response = await apiClient.get("/feedback");
     const body = response.data;
     const feedbackItems = Array.isArray(body) ? body : (body?.data ?? []);
 
