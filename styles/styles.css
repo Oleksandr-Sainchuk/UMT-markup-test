@@ -319,7 +319,8 @@ option::checkmark {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  text-align: center;
 }
 
 .catalogue-item-image {
@@ -333,23 +334,31 @@ option::checkmark {
 .catalogue-item-title {
   font-weight: 600;
   font-size: var(--medium);
+  width: 100%;
+  text-align: center;
 }
 
 .catalogue-item-text {
   font-size: var(--small);
   margin-top: 8px;
   margin-bottom: 16px;
+  width: 100%;
+  text-align: center;
 }
 
 .catalogue-item-price {
   font-weight: 600;
   font-size: var(--large);
   margin-bottom: 16px;
+  width: 100%;
+  text-align: center;
+  margin-top: auto;
 }
 
 .catalogue-more-button {
   padding-block: 8px;
   width: 100%;
+  text-align: center;
 }
 
 .catalogue-item-show-more-button {
@@ -923,6 +932,29 @@ option::checkmark {
   }
 }
 
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 1160px;
+  }
+
+  .catalogue-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .catalogue-list-item {
+    height: auto;
+    min-height: 453px;
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .catalogue-item-image {
+    width: 100%;
+  }
+}
+
 /* Desktop styles */
 @media screen and (min-width: 1440px) {
   /* Shared */
@@ -1031,15 +1063,6 @@ option::checkmark {
 
   .catalogue-title {
     margin-bottom: 16px;
-  }
-
-  .catalogue-list-item {
-    height: 453px;
-    flex-basis: calc((100% - (32px * 3)) / 4);
-  }
-
-  .catalogue-item-image {
-    width: 304px;
   }
 
   /* Feedback */
